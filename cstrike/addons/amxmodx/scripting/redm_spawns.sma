@@ -321,9 +321,15 @@ static Menu_Editor(const player/* , const level */) {
         spawnIndex = GetSpawnIndexByViewEntityIndex(focusEntity)
 
     new buffer[192]
-    formatex(buffer, charsmax(buffer), "Spawns manager^n\d(press `E` for spawn focus)\y^n%s",
-        (focusEntity != FM_NULLENT) ? fmt("\wSpawn index: #%i\y", spawnIndex) : ""
-    )
+    new titlePart[64]
+
+    if (focusEntity != FM_NULLENT && spawnIndex > 0) {
+        formatex(titlePart, charsmax(titlePart), "\wSpawn index: #%i\y", spawnIndex)
+    } else {
+        titlePart[0] = EOS
+    }
+
+    formatex(buffer, charsmax(buffer), "Spawns manager^n\d(press `E` for spawn focus)\y^n%s", titlePart)
     new menu = menu_create(buffer, "MenuHandler_Editor")
 
     menu_additem(
